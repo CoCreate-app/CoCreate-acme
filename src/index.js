@@ -165,7 +165,7 @@ class CoCreateAcme {
             fs.writeFileSync(hostKeyPath + 'private-key.pem', key);
             // fs.chmodSync(keyPath + 'certificate.pem', '400')
 
-            // TODO: emit change so that nginx can reload
+            process.emit('certificateCreated', host)
 
             let safeKey = host.replace(/\./g, '_');
             let organization = await this.crud.send({
@@ -232,17 +232,6 @@ class CoCreateAcme {
         return await this.requestCertificate(host, organization_id, false)
     }
 
-    isValid(expires) {
-        let currentDate = new Date();
-        currentDate.setDate(currentDate.getDate() + DAYS);
-        currentDate.setHours(currentDate.getHours() + HOURS);
-        currentDate.setMinutes(currentDate.getMinutes() + MINUTES);
-
-        if (expires && currentDate < expires) {
-            return true; // SSL is still valid, no need to renew
-        }
-    }
-
     async checkCertificate(host, organization_id) {
         let hostname = host.split(':')[0]
         if (hostname === 'localhost' || hostname === '127.0.0.1')
@@ -267,6 +256,17 @@ class CoCreateAcme {
         if (!hosts[host])
             hosts[host] = this.getCertificate(host, organization_id)
         return hosts[host]
+    }
+
+    isValid(expires) {
+        let currentDate = new Date();
+        currentDate.setDate(currentDate.getDate() + DAYS);
+        currentDate.setHours(currentDate.getHours() + HOURS);
+        currentDate.setMinutes(currentDate.getMinutes() + MINUTES);
+
+        if (expires && currentDate < expires) {
+            return true; // SSL is still valid, no need to renew
+        }
     }
 
 }
