@@ -232,9 +232,9 @@ class CoCreateAcme {
         return await this.requestCertificate(host, organization_id, false)
     }
 
-    async checkCertificate(host, organization_id) {
+    async checkCertificate(host, organization_id, pathname = '') {
         let hostname = host.split(':')[0]
-        if (hostname === 'localhost' || hostname === '127.0.0.1')
+        if (hostname === 'localhost' || hostname === '127.0.0.1' || pathname.startsWith('/.well-known/acme-challenge/'))
             return true
 
         let expires = certificates.get(host)
