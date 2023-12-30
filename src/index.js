@@ -159,11 +159,11 @@ class CoCreateAcme {
             certificates.set(host, expires)
 
             /* Save the certificate and key */
-            fs.writeFileSync(hostKeyPath + 'certificate.pem', cert);
-            // fs.chmodSync(keyPath + 'certificate.pem', '444')
+            fs.writeFileSync(hostKeyPath + 'fullchain.pem', cert);
+            // fs.chmodSync(keyPath + 'fullchain.pem', '444')
 
             fs.writeFileSync(hostKeyPath + 'private-key.pem', key);
-            // fs.chmodSync(keyPath + 'certificate.pem', '400')
+            // fs.chmodSync(keyPath + 'private-key.pem', '400')
 
             process.emit('certificateCreated', host)
 
@@ -217,10 +217,10 @@ class CoCreateAcme {
                             fs.mkdirSync(hostKeyPath, { recursive: true });
                         }
 
-                        fs.writeFileSync(hostKeyPath + 'certificate.pem', cert);
-                        // fs.chmodSync(keyPath + 'certificate.pem', '444')
+                        fs.writeFileSync(hostKeyPath + 'fullchain.pem', cert);
+                        // fs.chmodSync(keyPath + 'fullchain.pem', '444')
                         fs.writeFileSync(hostKeyPath + 'private-key.pem', key);
-                        // fs.chmodSync(keyPath + 'certificate.pem', '400')
+                        // fs.chmodSync(keyPath + 'private-key.pem', '400')
 
                         // TODO: emit change so that nginx can reload
                         return true
@@ -243,8 +243,8 @@ class CoCreateAcme {
         }
 
         const hostKeyPath = keyPath + host + '/';
-        if (fs.existsSync(hostKeyPath + 'certificate.pem')) {
-            expires = fs.readFileSync(hostKeyPath + 'certificate.pem', 'utf8');
+        if (fs.existsSync(hostKeyPath + 'fullchain.pem')) {
+            expires = fs.readFileSync(hostKeyPath + 'fullchain.pem', 'utf8');
             expires = await forge.readCertificateInfo(expires);
             expires = expires.notAfter;
             if (this.isValid(expires)) {
