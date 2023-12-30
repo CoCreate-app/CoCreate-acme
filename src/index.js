@@ -15,7 +15,8 @@ const MINUTES = Math.floor(Math.random() * 60);  // Random minutes between 0-59
 // Store these constants in a configuration file, environment variable, or database
 
 class CoCreateAcme {
-    constructor(crud) {
+    constructor(proxy, crud) {
+        this.proxy = proxy
         this.crud = crud
         this.init().catch(err => {
             console.error('Error initializing ACME client:', err);
@@ -165,7 +166,8 @@ class CoCreateAcme {
             fs.writeFileSync(hostKeyPath + 'private-key.pem', key);
             // fs.chmodSync(keyPath + 'private-key.pem', '400')
 
-            process.emit('certificateCreated', host)
+            // process.emit('certificateCreated', host)
+            this.proxy.createServer(host)
 
             let safeKey = host.replace(/\./g, '_');
             let organization = await this.crud.send({
