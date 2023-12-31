@@ -4,7 +4,6 @@
   "description": "An intergration with ACME and CoCreateJS.",
   "keywords": [
     "acme",
-    "chain-functions",
     "cocreate",
     "low-code-framework",
     "no-code-framework",
