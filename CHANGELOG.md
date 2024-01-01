@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/CoCreate-app/CoCreate-acme/compare/v1.1.0...v1.1.1) (2024-01-01)
+
+
+### Bug Fixes
+
+* check pathname for acme-challenge and return true ([0b90df5](https://github.com/CoCreate-app/CoCreate-acme/commit/0b90df504cb452bc60a822ea55c0987c71e3fa11))
+
 # [1.1.0](https://github.com/CoCreate-app/CoCreate-acme/compare/v1.0.0...v1.1.0) (2023-12-31)
 
 
