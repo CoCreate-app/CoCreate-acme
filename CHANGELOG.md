@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/CoCreate-app/CoCreate-acme/compare/v1.1.1...v1.1.2) (2024-01-01)
+
+
+### Bug Fixes
+
+* added proxy.createServer ([ec8e37f](https://github.com/CoCreate-app/CoCreate-acme/commit/ec8e37fbce371bd615807f290e695e2880572fb8))
+
 ## [1.1.1](https://github.com/CoCreate-app/CoCreate-acme/compare/v1.1.0...v1.1.1) (2024-01-01)
 
 
