@@ -1,9 +1,11 @@
 const { Client, forge } = require('acme-client');
 const fs = require('fs');
+const util = require('node:util');
+const exec = util.promisify(require('node:child_process').exec);
 
-const certificates = new Map()
+const certificates = {}
 const email = 'ssl@cocreate.app';
-const keyPath = 'certificates/';
+const keyPath = '/etc/certificates/';
 let client
 const hosts = {}
 
@@ -18,6 +20,7 @@ class CoCreateAcme {
     constructor(proxy, crud) {
         this.proxy = proxy
         this.crud = crud
+        // this.check = this.checkCertificate
         this.init().catch(err => {
             console.error('Error initializing ACME client:', err);
             // TODO: Handle initialization error (possibly retry or exit)
@@ -26,9 +29,12 @@ class CoCreateAcme {
     }
 
     async init() {
-        if (!fs.existsSync(keyPath)) {
-            fs.mkdirSync(keyPath, { recursive: true }); // Create the directory if it doesn't exist
-        }
+        await exec('sudo mkdir -p /etc/certificates');
+        await exec('sudo chmod 777 /etc/certificates');
+
+        // if (!fs.existsSync(keyPath)) {
+        //     fs.mkdirSync(keyPath, { recursive: true }); // Create the directory if it doesn't exist
+        // }
 
         const accountKeyPath = keyPath + 'account.pem';
 
@@ -48,7 +54,7 @@ class CoCreateAcme {
 
         // Initialize the ACME client with the account key
         client = new Client({
-            directoryUrl: 'https://acme-staging-v02.api.letsencrypt.org/directory',
+            directoryUrl: 'https://acme-v02.api.letsencrypt.org/directory', // https://acme-v02.api.letsencrypt.org/directory https://acme-staging-v02.api.letsencrypt.org/directory
             accountKey: accountKey
         });
 
@@ -157,7 +163,7 @@ class CoCreateAcme {
 
             let expires = await forge.readCertificateInfo(cert);
             expires = expires.notAfter;
-            certificates.set(host, expires)
+            this.setCertificate(host, expires, organization_id)
 
             /* Save the certificate and key */
             fs.writeFileSync(hostKeyPath + 'fullchain.pem', cert);
@@ -192,6 +198,27 @@ class CoCreateAcme {
     async getCertificate(host, organization_id) {
         const hostKeyPath = keyPath + host + '/';
 
+        if (!organization_id) {
+            let org = await this.crud.send({
+                method: 'object.read',
+                array: 'organizations',
+                $filter: {
+                    query: [
+                        { key: "host", value: [host], operator: "$in" }
+                    ]
+                },
+                organization_id: process.env.organization_id
+            })
+
+            if (!org || !org.object || !org.object[0]) {
+                console.log('Organization could not be found');
+                return false
+            } else {
+                organization_id = org.object[0]._id
+            }
+
+        }
+
         let organization = await this.crud.send({
             method: 'object.read',
             array: 'organizations',
@@ -214,7 +241,7 @@ class CoCreateAcme {
                     let expires = await forge.readCertificateInfo(cert);
                     expires = expires.notAfter;
                     if (this.isValid(expires)) {
-                        certificates.set(host, expires)
+                        this.setCertificate(host, expires, organization_id)
                         if (!fs.existsSync(hostKeyPath)) {
                             fs.mkdirSync(hostKeyPath, { recursive: true });
                         }
@@ -224,7 +251,7 @@ class CoCreateAcme {
                         fs.writeFileSync(hostKeyPath + 'private-key.pem', key);
                         // fs.chmodSync(keyPath + 'private-key.pem', '400')
 
-                        // TODO: emit change so that nginx can reload
+                        this.proxy.createServer(host)
                         return true
                     }
                 }
@@ -239,18 +266,17 @@ class CoCreateAcme {
         if (hostname === 'localhost' || hostname === '127.0.0.1' || pathname.startsWith('/.well-known/acme-challenge/'))
             return true
 
-        let expires = certificates.get(host)
-        if (expires && this.isValid(expires)) {
+        if (certificates[host]) {
             return true
         }
 
         const hostKeyPath = keyPath + host + '/';
         if (fs.existsSync(hostKeyPath + 'fullchain.pem')) {
-            expires = fs.readFileSync(hostKeyPath + 'fullchain.pem', 'utf8');
+            let expires = fs.readFileSync(hostKeyPath + 'fullchain.pem', 'utf8');
             expires = await forge.readCertificateInfo(expires);
             expires = expires.notAfter;
             if (this.isValid(expires)) {
-                certificates.set(host, expires)
+                this.setCertificate(host, expires, organization_id)
                 return true
             }
         }
@@ -269,6 +295,36 @@ class CoCreateAcme {
         if (expires && currentDate < expires) {
             return true; // SSL is still valid, no need to renew
         }
+    }
+
+    setCertificate(host, expires, organization_id) {
+        // let expireDate = new Date(expires);
+        // let currentDate = new Date();
+
+        // Adjust the expireDate by the DAYS, HOURS, and MINUTES constants
+        // expireDate.setDate(expireDate.getDate() - DAYS); // Subtracting to renew earlier
+        // expireDate.setHours(expireDate.getHours() - HOURS);
+        // expireDate.setMinutes(expireDate.getMinutes() - MINUTES);
+
+        // Calculate the time difference in milliseconds
+        // let timeoutDuration = expireDate.getTime() - currentDate.getTime();
+
+        // Ensure we're not setting a negative timeout in case of past dates or errors
+        // timeoutDuration = Math.max(timeoutDuration, 0);
+
+        // Clear any existing timeout for the host
+        // if (certificates[host] && certificates[host].timeout) {
+        //     clearTimeout(certificates[host].timeout);
+        // }
+
+        // Set the timeout to call checkCertificate before the actual expiration
+        // let timeout = setTimeout(() => {
+        //     this.checkCertificate(host, organization_id);
+        // }, timeoutDuration);
+
+        // Store the timeout and organization_id for later reference or cancellation
+        certificates[host] = { expires, organization_id }
+
     }
 
 }
