@@ -1,3 +1,11 @@
+## [1.1.3](https://github.com/CoCreate-app/CoCreate-acme/compare/v1.1.2...v1.1.3) (2024-01-03)
+
+
+### Bug Fixes
+
+* added licencing details ([220ee61](https://github.com/CoCreate-app/CoCreate-acme/commit/220ee61a9d954a62a5c505a34995e287f6f01c12))
+* get organization_id and update certificate paths ([6ae3c71](https://github.com/CoCreate-app/CoCreate-acme/commit/6ae3c71cc1f16d6f93ec767bd5b4dae28b669764))
+
 ## [1.1.2](https://github.com/CoCreate-app/CoCreate-acme/compare/v1.1.1...v1.1.2) (2024-01-01)
 
 
