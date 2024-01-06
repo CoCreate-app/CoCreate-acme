@@ -211,12 +211,11 @@ class CoCreateAcme {
         if (organization.error)
             return false
 
-        if (!organization.host || !organization.host.includes(host))
-            return false
-
         if (organization.host) {
-            for (let i = 0; i < host; i++) {
-                if (organization.host[i].name === hostname) {
+            let isHost
+            for (let i = 0; i < organization.host.length; i++) {
+                if (organization.host[i].name === host) {
+                    isHost = true
                     if (organization.host[i].cert && organization.host[i].key) {
                         let expires = await forge.readCertificateInfo(organization.host[i].cert);
                         expires = expires.notAfter;
@@ -238,6 +237,9 @@ class CoCreateAcme {
                     break
                 }
             }
+
+            if (!isHost)
+                return false
         }
 
         return await this.requestCertificate(host, organization_id, false)
