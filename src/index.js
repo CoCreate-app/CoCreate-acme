@@ -199,61 +199,41 @@ class CoCreateAcme {
         const hostKeyPath = keyPath + host + '/';
 
         if (!organization_id) {
-            let org = await this.crud.send({
-                method: 'object.read',
-                array: 'organizations',
-                $filter: {
-                    query: [
-                        { key: "host", value: [host], operator: "$in" }
-                    ]
-                },
-                organization_id: process.env.organization_id
-            })
-
-            if (!org || !org.object || !org.object[0]) {
-                console.log('Organization could not be found');
+            let org = await this.crud.getHost(host)
+            if (org.error)
+                // console.log('Organization could not be found');
                 return false
-            } else {
-                organization_id = org.object[0]._id
-            }
-
+            else
+                organization_id = org._id
         }
 
-        let organization = await this.crud.send({
-            method: 'object.read',
-            array: 'organizations',
-            object: {
-                _id: organization_id
-            },
-            organization_id,
-        });
+        let organization = await this.crud.getOrganization(organization_id, false);
+        if (organization.error)
+            return false
 
-        if (organization && organization.object && organization.object[0]) {
+        if (!organization.host || !organization.host.includes(host))
+            return false
 
-            if (!organization.object[0].host || !organization.object[0].host.includes(host))
-                return false
-
-            let safeKey = host.replace(/\./g, '_');
-            if (organization.object[0].ssl && organization.object[0].ssl[safeKey]) {
-                let cert = organization.object[0].ssl[safeKey].cert
-                let key = organization.object[0].ssl[safeKey].key
-                if (cert && key) {
-                    let expires = await forge.readCertificateInfo(cert);
-                    expires = expires.notAfter;
-                    if (this.isValid(expires)) {
-                        this.setCertificate(host, expires, organization_id)
-                        if (!fs.existsSync(hostKeyPath)) {
-                            fs.mkdirSync(hostKeyPath, { recursive: true });
-                        }
-
-                        fs.writeFileSync(hostKeyPath + 'fullchain.pem', cert);
-                        // fs.chmodSync(keyPath + 'fullchain.pem', '444')
-                        fs.writeFileSync(hostKeyPath + 'private-key.pem', key);
-                        // fs.chmodSync(keyPath + 'private-key.pem', '400')
-
-                        this.proxy.createServer(host)
-                        return true
+        let safeKey = host.replace(/\./g, '_');
+        if (organization.ssl && organization.ssl[safeKey]) {
+            let cert = organization.ssl[safeKey].cert
+            let key = organization.ssl[safeKey].key
+            if (cert && key) {
+                let expires = await forge.readCertificateInfo(cert);
+                expires = expires.notAfter;
+                if (this.isValid(expires)) {
+                    this.setCertificate(host, expires, organization_id)
+                    if (!fs.existsSync(hostKeyPath)) {
+                        fs.mkdirSync(hostKeyPath, { recursive: true });
                     }
+
+                    fs.writeFileSync(hostKeyPath + 'fullchain.pem', cert);
+                    // fs.chmodSync(keyPath + 'fullchain.pem', '444')
+                    fs.writeFileSync(hostKeyPath + 'private-key.pem', key);
+                    // fs.chmodSync(keyPath + 'private-key.pem', '400')
+
+                    this.proxy.createServer(host)
+                    return true
                 }
             }
         }
