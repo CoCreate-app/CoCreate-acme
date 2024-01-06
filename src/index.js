@@ -214,26 +214,28 @@ class CoCreateAcme {
         if (!organization.host || !organization.host.includes(host))
             return false
 
-        let safeKey = host.replace(/\./g, '_');
-        if (organization.ssl && organization.ssl[safeKey]) {
-            let cert = organization.ssl[safeKey].cert
-            let key = organization.ssl[safeKey].key
-            if (cert && key) {
-                let expires = await forge.readCertificateInfo(cert);
-                expires = expires.notAfter;
-                if (this.isValid(expires)) {
-                    this.setCertificate(host, expires, organization_id)
-                    if (!fs.existsSync(hostKeyPath)) {
-                        fs.mkdirSync(hostKeyPath, { recursive: true });
+        if (organization.host) {
+            for (let i = 0; i < host; i++) {
+                if (organization.host[i].name === hostname) {
+                    if (organization.host[i].cert && organization.host[i].key) {
+                        let expires = await forge.readCertificateInfo(organization.host[i].cert);
+                        expires = expires.notAfter;
+                        if (this.isValid(expires)) {
+                            this.setCertificate(host, expires, organization_id)
+                            if (!fs.existsSync(hostKeyPath)) {
+                                fs.mkdirSync(hostKeyPath, { recursive: true });
+                            }
+
+                            fs.writeFileSync(hostKeyPath + 'fullchain.pem', organization.host[i].cert);
+                            // fs.chmodSync(keyPath + 'fullchain.pem', '444')
+                            fs.writeFileSync(hostKeyPath + 'private-key.pem', organization.host[i].key);
+                            // fs.chmodSync(keyPath + 'private-key.pem', '400')
+
+                            this.proxy.createServer(host)
+                            return true
+                        }
                     }
-
-                    fs.writeFileSync(hostKeyPath + 'fullchain.pem', cert);
-                    // fs.chmodSync(keyPath + 'fullchain.pem', '444')
-                    fs.writeFileSync(hostKeyPath + 'private-key.pem', key);
-                    // fs.chmodSync(keyPath + 'private-key.pem', '400')
-
-                    this.proxy.createServer(host)
-                    return true
+                    break
                 }
             }
         }
