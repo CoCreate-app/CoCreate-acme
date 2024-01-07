@@ -76,7 +76,7 @@ class CoCreateAcme {
         }
     }
 
-    async requestCertificate(host, organization_id, wildcard = false) {
+    async requestCertificate(host, hostPosition, organization_id, wildcard = false) {
         try {
 
             const self = this
@@ -102,6 +102,8 @@ class CoCreateAcme {
                 email: [email], // Replace with your email
                 termsOfServiceAgreed: true,
                 challengeCreateFn: async (authz, challenge, keyAuthorization) => {
+                    console.log(`Challenge added for host: ${host} token: ${challenge.token}`);
+
                     if (challenge.type === 'http-01') {
                         const httpChallenge = await self.crud.send({
                             method: 'object.create',
@@ -163,32 +165,22 @@ class CoCreateAcme {
 
             let expires = await forge.readCertificateInfo(cert);
             expires = expires.notAfter;
-            this.setCertificate(host, expires, organization_id)
+            this.setCertificate(host, expires, organization_id, hostKeyPath, cert, key)
 
-            /* Save the certificate and key */
-            fs.writeFileSync(hostKeyPath + 'fullchain.pem', cert);
-            // fs.chmodSync(keyPath + 'fullchain.pem', '444')
-
-            fs.writeFileSync(hostKeyPath + 'private-key.pem', key);
-            // fs.chmodSync(keyPath + 'private-key.pem', '400')
-
-            // process.emit('certificateCreated', host)
-            this.proxy.createServer(host)
-
-            let safeKey = host.replace(/\./g, '_');
-            let organization = await this.crud.send({
+            this.crud.send({
                 method: 'object.update',
                 array: 'organizations',
                 object: {
                     _id: organization_id,
-                    ['ssl.' + safeKey]: { cert, key: key.toString('utf-8') }
+                    [`host[${hostPosition}]`]: { name: host, cert, key, expires },
                 },
-                organization_id,
+                organization_id
             });
 
-            console.log('Successfully created certificate!');
+            console.log(`Certificate successfully created for ${host}!'`);
             return true
         } catch (error) {
+            console.log(`Certificate failed to create for ${host}!`);
             delete hosts[host]
             return false
         }
@@ -212,25 +204,15 @@ class CoCreateAcme {
             return false
 
         if (organization.host) {
-            let isHost
+            let hostPosition
             for (let i = 0; i < organization.host.length; i++) {
                 if (organization.host[i].name === host) {
-                    isHost = true
+                    hostPosition = i
                     if (organization.host[i].cert && organization.host[i].key) {
                         let expires = await forge.readCertificateInfo(organization.host[i].cert);
                         expires = expires.notAfter;
                         if (this.isValid(expires)) {
-                            this.setCertificate(host, expires, organization_id)
-                            if (!fs.existsSync(hostKeyPath)) {
-                                fs.mkdirSync(hostKeyPath, { recursive: true });
-                            }
-
-                            fs.writeFileSync(hostKeyPath + 'fullchain.pem', organization.host[i].cert);
-                            // fs.chmodSync(keyPath + 'fullchain.pem', '444')
-                            fs.writeFileSync(hostKeyPath + 'private-key.pem', organization.host[i].key);
-                            // fs.chmodSync(keyPath + 'private-key.pem', '400')
-
-                            this.proxy.createServer(host)
+                            this.setCertificate(host, expires, organization_id, hostKeyPath, organization.host[i].cert, organization.host[i].key)
                             return true
                         }
                     }
@@ -238,11 +220,11 @@ class CoCreateAcme {
                 }
             }
 
-            if (!isHost)
+            if (hostPosition >= 0)
                 return false
         }
 
-        return await this.requestCertificate(host, organization_id, false)
+        return await this.requestCertificate(host, hostPosition, organization_id, false)
     }
 
     async checkCertificate(host, organization_id, pathname = '') {
@@ -281,7 +263,7 @@ class CoCreateAcme {
         }
     }
 
-    setCertificate(host, expires, organization_id) {
+    setCertificate(host, expires, organization_id, hostKeyPath, cert, key) {
         // let expireDate = new Date(expires);
         // let currentDate = new Date();
 
@@ -307,6 +289,19 @@ class CoCreateAcme {
         // }, timeoutDuration);
 
         // Store the timeout and organization_id for later reference or cancellation
+
+        if (hostKeyPath) {
+            if (!fs.existsSync(hostKeyPath)) {
+                fs.mkdirSync(hostKeyPath, { recursive: true });
+            }
+            fs.writeFileSync(hostKeyPath + 'fullchain.pem', cert);
+            // fs.chmodSync(keyPath + 'fullchain.pem', '444')
+            fs.writeFileSync(hostKeyPath + 'private-key.pem', key);
+            // fs.chmodSync(keyPath + 'private-key.pem', '400')
+        }
+
+        this.proxy.createServer(host)
+
         certificates[host] = { expires, organization_id }
 
     }
