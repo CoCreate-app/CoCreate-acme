@@ -107,6 +107,7 @@ class CoCreateAcme {
                     if (challenge.type === 'http-01') {
                         const httpChallenge = await self.crud.send({
                             method: 'object.create',
+                            host,
                             array: 'files',
                             object: {
                                 "content-type": "text/plain",
@@ -150,6 +151,7 @@ class CoCreateAcme {
                     if (challenge.type === 'http-01') {
                         self.crud.send({
                             method: 'object.delete',
+                            host,
                             array: 'files',
                             object: {
                                 _id: challenge_id
@@ -169,6 +171,7 @@ class CoCreateAcme {
 
             this.crud.send({
                 method: 'object.update',
+                host,
                 array: 'organizations',
                 object: {
                     _id: organization_id,
