@@ -1,3 +1,10 @@
+## [1.2.3](https://github.com/CoCreate-app/CoCreate-acme/compare/v1.2.2...v1.2.3) (2024-01-08)
+
+
+### Bug Fixes
+
+* update to logging ([8e3946d](https://github.com/CoCreate-app/CoCreate-acme/commit/8e3946d6dc8af2719c9d76484e2f35d5b3dbee7b))
+
 ## [1.2.2](https://github.com/CoCreate-app/CoCreate-acme/compare/v1.2.1...v1.2.2) (2024-01-08)
 
 
