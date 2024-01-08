@@ -169,8 +169,6 @@ class CoCreateAcme {
             expires = expires.notAfter;
             this.setCertificate(host, expires, organization_id, hostKeyPath, cert, key)
 
-            console.log(`saving host: ${host} at postion: ${hostPosition}`)
-
             this.crud.send({
                 method: 'object.update',
                 host,
@@ -248,57 +246,6 @@ class CoCreateAcme {
             expires = expires.notAfter;
             if (this.isValid(expires)) {
                 this.setCertificate(host, expires, organization_id)
-
-                // TODO: remove after certs are synced
-                let key = fs.readFileSync(hostKeyPath + 'private-key.pem', 'utf8');
-                let hostPosition, org
-
-                if (!organization_id) {
-                    let org = await this.crud.getHost(host)
-                    if (org.error)
-                        // console.log('Organization could not be found');
-                        return false
-                    else
-                        organization_id = org._id
-                }
-
-                let organization = await this.crud.getOrganization(organization_id, false);
-                if (organization.error)
-                    return false
-
-                if (organization.host) {
-                    for (let i = 0; i < organization.host.length; i++) {
-                        if (organization.host[i].name === host) {
-                            hostPosition = i
-                            console.log(`Found host: ${host} at postion: ${hostPosition}`)
-
-                            if (organization.host[i].cert && organization.host[i].key) {
-                                let expires = await forge.readCertificateInfo(organization.host[i].cert);
-                                expires = expires.notAfter;
-                                if (this.isValid(expires)) {
-                                    this.setCertificate(host, expires, organization_id, hostKeyPath, organization.host[i].cert, organization.host[i].key)
-                                    return true
-                                }
-                            }
-                            break
-                        }
-                    }
-
-                    if (!hostPosition && hostPosition !== 0)
-                        return false
-                }
-
-                this.crud.send({
-                    method: 'object.update',
-                    host,
-                    array: 'organizations',
-                    object: {
-                        _id: organization_id,
-                        [`host[${hostPosition}]`]: { name: host, cert, key, expires },
-                    },
-                    organization_id
-                });
-
                 return true
             }
         }
