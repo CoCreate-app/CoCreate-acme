@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/CoCreate-app/CoCreate-acme/compare/v1.2.1...v1.2.2) (2024-01-08)
+
+
+### Bug Fixes
+
+* ssl syncing ([65b226a](https://github.com/CoCreate-app/CoCreate-acme/commit/65b226a16487f3b8b6862092f6b3e83d8f119f51))
+
 ## [1.2.1](https://github.com/CoCreate-app/CoCreate-acme/compare/v1.2.0...v1.2.1) (2024-01-08)
 
 
