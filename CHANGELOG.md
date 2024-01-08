@@ -1,3 +1,19 @@
+# [1.2.0](https://github.com/CoCreate-app/CoCreate-acme/compare/v1.1.3...v1.2.0) (2024-01-08)
+
+
+### Bug Fixes
+
+* applied host to define environment/branch ([6931a9b](https://github.com/CoCreate-app/CoCreate-acme/commit/6931a9b81bfdf5b095534f7f42c6b9df1ea99141))
+* handle ssl from host array ([fd45091](https://github.com/CoCreate-app/CoCreate-acme/commit/fd450914804b389647af52a1c40f6569e44066cf))
+* setCertificate handle writeFileSync and hostPosition defined to save to host object ([29e794d](https://github.com/CoCreate-app/CoCreate-acme/commit/29e794de6d38584462ea926f3ef957d42b97c0bf))
+
+
+### Features
+
+* bumped CoCreate dependencies to their latest versions ([c25e34d](https://github.com/CoCreate-app/CoCreate-acme/commit/c25e34de1e47f660c773c7ea242e4ff2b060c936))
+* host contains sert and key ([11380ac](https://github.com/CoCreate-app/CoCreate-acme/commit/11380acb7463e13d14a3e6ea856c288cef1d26c4))
+* use crud.getHost and crud.getorganization ([574718b](https://github.com/CoCreate-app/CoCreate-acme/commit/574718b0ae035b63f6e70f4423ea1fd484bc80cc))
+
 ## [1.1.3](https://github.com/CoCreate-app/CoCreate-acme/compare/v1.1.2...v1.1.3) (2024-01-03)
 
 
