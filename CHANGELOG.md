@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/CoCreate-app/CoCreate-acme/compare/v1.2.0...v1.2.1) (2024-01-08)
+
+
+### Bug Fixes
+
+* handling hostPosition ([fa105b1](https://github.com/CoCreate-app/CoCreate-acme/commit/fa105b1a35927380cd88549d7675eebd2d80a163))
+
 # [1.2.0](https://github.com/CoCreate-app/CoCreate-acme/compare/v1.1.3...v1.2.0) (2024-01-08)
 
 
