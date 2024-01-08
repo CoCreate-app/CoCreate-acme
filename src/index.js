@@ -169,6 +169,8 @@ class CoCreateAcme {
             expires = expires.notAfter;
             this.setCertificate(host, expires, organization_id, hostKeyPath, cert, key)
 
+            console.log(`saving host: ${host} at postion: ${hostPosition}`)
+
             this.crud.send({
                 method: 'object.update',
                 host,
@@ -192,6 +194,7 @@ class CoCreateAcme {
 
     async getCertificate(host, organization_id) {
         const hostKeyPath = keyPath + host + '/';
+        let hostPosition
 
         if (!organization_id) {
             let org = await this.crud.getHost(host)
@@ -207,7 +210,6 @@ class CoCreateAcme {
             return false
 
         if (organization.host) {
-            let hostPosition
             for (let i = 0; i < organization.host.length; i++) {
                 if (organization.host[i].name === host) {
                     hostPosition = i
@@ -223,7 +225,7 @@ class CoCreateAcme {
                 }
             }
 
-            if (hostPosition >= 0)
+            if (!hostPosition && hostPosition !== 0)
                 return false
         }
 
