@@ -194,16 +194,7 @@ class CoCreateAcme {
         const hostKeyPath = keyPath + host + '/';
         let hostPosition
 
-        if (!organization_id) {
-            let org = await this.crud.getHost(host)
-            if (org.error)
-                // console.log('Organization could not be found');
-                return false
-            else
-                organization_id = org._id
-        }
-
-        let organization = await this.crud.getOrganization(organization_id, false);
+        let organization = await this.crud.getOrganization({ host, organization_id });
         if (organization.error)
             return false
 
