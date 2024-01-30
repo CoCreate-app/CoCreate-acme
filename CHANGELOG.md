@@ -1,3 +1,10 @@
+## [1.2.4](https://github.com/CoCreate-app/CoCreate-acme/compare/v1.2.3...v1.2.4) (2024-01-30)
+
+
+### Bug Fixes
+
+* removed getHost ([3d58b30](https://github.com/CoCreate-app/CoCreate-acme/commit/3d58b3046f2444b76c9ce6a3f5dd78c6a17d3ca6))
+
 ## [1.2.3](https://github.com/CoCreate-app/CoCreate-acme/compare/v1.2.2...v1.2.3) (2024-01-08)
 
 
