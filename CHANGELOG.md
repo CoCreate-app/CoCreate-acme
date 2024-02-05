@@ -1,3 +1,10 @@
+## [1.2.5](https://github.com/CoCreate-app/CoCreate-acme/compare/v1.2.4...v1.2.5) (2024-02-05)
+
+
+### Bug Fixes
+
+* Removed https://cdn.cocreate.app/latest/CoCreate.min.css ([f203e98](https://github.com/CoCreate-app/CoCreate-acme/commit/f203e985e9652fc1a494aa3c2bec0763f50b4077))
+
 ## [1.2.4](https://github.com/CoCreate-app/CoCreate-acme/compare/v1.2.3...v1.2.4) (2024-01-30)
 
 
