@@ -1,3 +1,10 @@
+## [1.2.7](https://github.com/CoCreate-app/CoCreate-acme/compare/v1.2.6...v1.2.7) (2024-03-18)
+
+
+### Bug Fixes
+
+* removed replaced keyword spaces with hyphens ([7e041d6](https://github.com/CoCreate-app/CoCreate-acme/commit/7e041d669135dd8c372864a32d9a17bcf33feace))
+
 ## [1.2.6](https://github.com/CoCreate-app/CoCreate-acme/compare/v1.2.5...v1.2.6) (2024-03-18)
 
 
