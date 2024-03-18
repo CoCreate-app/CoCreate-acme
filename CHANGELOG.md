@@ -1,3 +1,10 @@
+## [1.2.6](https://github.com/CoCreate-app/CoCreate-acme/compare/v1.2.5...v1.2.6) (2024-03-18)
+
+
+### Bug Fixes
+
+* descriptions ([9077e05](https://github.com/CoCreate-app/CoCreate-acme/commit/9077e05c7de4cef797c6287bd7056f2b3abf6093))
+
 ## [1.2.5](https://github.com/CoCreate-app/CoCreate-acme/compare/v1.2.4...v1.2.5) (2024-02-05)
 
 
