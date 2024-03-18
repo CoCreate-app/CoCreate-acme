@@ -1,13 +1,19 @@
 # CoCreate-acme
 
-A convenient chain handler allows user to chain multiple CoCreate components together. When one action is complete next one will start. The sequence goes untill all acme completed. Grounded on Vanilla javascript, easily configured using HTML5 attributes and/or JavaScript API. Take it for a spin in our [playground!](https://cocreate.app/docs/acme)
+CoCreate-acme offers a powerful and dynamic SSL certificate management solution, leveraging the ACME protocol to automate the creation, renewal, and retrieval of certificates. Designed for distributed applications, it not only simplifies certificate management but also provides direct API access within your application, enabling real-time certificate operations without manual intervention.
 
 ![minified](https://img.badgesize.io/https://cdn.cocreate.app/acme/latest/CoCreate-acme.min.js?style=flat-square&label=minified&color=orange)
 ![gzip](https://img.badgesize.io/https://cdn.cocreate.app/acme/latest/CoCreate-acme.min.js?compression=gzip&style=flat-square&label=gzip&color=yellow)
 ![brotli](https://img.badgesize.io/https://cdn.cocreate.app/acme/latest/CoCreate-acme.min.js?compression=brotli&style=flat-square&label=brotli)
-![GitHub latest release](https://img.shields.io/github/v/release/CoCreate-app/CoCreate-action?style=flat-square)
-![License](https://img.shields.io/github/license/CoCreate-app/CoCreate-action?style=flat-square)
+![GitHub latest release](https://img.shields.io/github/v/release/CoCreate-app/CoCreate-acme?style=flat-square)
+![License](https://img.shields.io/github/license/CoCreate-app/CoCreate-acme?style=flat-square)
 ![Hiring](https://img.shields.io/static/v1?style=flat-square&label=&message=Hiring&color=blueviolet)
+
+## Key Features
+
+-   **Automated Certificate Lifecycle Management**: Utilizes the ACME protocol for hassle-free creation, renewal, and retrieval of SSL certificates, minimizing manual efforts.
+-   **Direct API Access within Applications**: Seamlessly integrates with your application, providing an accessible API for on-the-fly certificate management, ideal for dynamic and distributed environments.
+-   **Scalable for Distributed Applications**: Engineered to support the unique needs of distributed applications, ensuring secure, scalable certificate provisioning.
 
 ![CoCreate-acme](https://cdn.cocreate.app/docs/CoCreate-acme.gif)
 
