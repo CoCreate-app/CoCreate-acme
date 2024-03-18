@@ -1,3 +1,10 @@
+## [1.2.8](https://github.com/CoCreate-app/CoCreate-acme/compare/v1.2.7...v1.2.8) (2024-03-18)
+
+
+### Bug Fixes
+
+* removed uppercase ([c273578](https://github.com/CoCreate-app/CoCreate-acme/commit/c2735787b95f6c50e5f06fb133a5d6cac2d0d00d))
+
 ## [1.2.7](https://github.com/CoCreate-app/CoCreate-acme/compare/v1.2.6...v1.2.7) (2024-03-18)
 
 
