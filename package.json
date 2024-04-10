@@ -1,6 +1,6 @@
 {
   "name": "@cocreate/acme",
-  "version": "1.2.8",
+  "version": "1.2.9",
   "description": "Dynamic SSL certificate management leveraging the ACME protocol, designed for direct API accessibility within applications. Automates certificate creation, renewal, and retrieval, ideal for distributed applications requiring real-time, secure certificate operations.",
   "keywords": [
     "acme",

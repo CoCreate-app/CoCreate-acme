@@ -1,3 +1,10 @@
+## [1.2.9](https://github.com/CoCreate-app/CoCreate-acme/compare/v1.2.8...v1.2.9) (2024-04-10)
+
+
+### Bug Fixes
+
+* handling organization_id  if undefined ([c537cd1](https://github.com/CoCreate-app/CoCreate-acme/commit/c537cd18ef84d4b6d102e2028321a623756c0dfc))
+
 ## [1.2.8](https://github.com/CoCreate-app/CoCreate-acme/compare/v1.2.7...v1.2.8) (2024-03-18)
 
 
