@@ -197,6 +197,8 @@ class CoCreateAcme {
         let organization = await this.crud.getOrganization({ host, organization_id });
         if (organization.error)
             return false
+        if (!organization_id)
+            organization_id = organization._id
 
         if (organization.host) {
             for (let i = 0; i < organization.host.length; i++) {
