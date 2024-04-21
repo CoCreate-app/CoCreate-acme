@@ -76,7 +76,7 @@ class CoCreateAcme {
         }
     }
 
-    async requestCertificate(host, hostPosition, organization_id, wildcard = false) {
+    async requestCertificate(host, hostPosition, hostObject, organization_id, wildcard = false) {
         try {
 
             const self = this
@@ -175,7 +175,7 @@ class CoCreateAcme {
                 array: 'organizations',
                 object: {
                     _id: organization_id,
-                    [`host[${hostPosition}]`]: { name: host, cert, key, expires },
+                    [`host[${hostPosition}]`]: { ...hostObject, name: host, cert, key, expires },
                 },
                 organization_id
             });
@@ -192,7 +192,7 @@ class CoCreateAcme {
 
     async getCertificate(host, organization_id) {
         const hostKeyPath = keyPath + host + '/';
-        let hostPosition
+        let hostPosition, hostObject
 
         let organization = await this.crud.getOrganization({ host, organization_id });
         if (organization.error)
@@ -204,6 +204,7 @@ class CoCreateAcme {
             for (let i = 0; i < organization.host.length; i++) {
                 if (organization.host[i].name === host) {
                     hostPosition = i
+                    hostObject = organization.host[i]
                     if (organization.host[i].cert && organization.host[i].key) {
                         let expires = await forge.readCertificateInfo(organization.host[i].cert);
                         expires = expires.notAfter;
@@ -220,7 +221,7 @@ class CoCreateAcme {
                 return false
         }
 
-        return await this.requestCertificate(host, hostPosition, organization_id, false)
+        return await this.requestCertificate(host, hostPosition, hostObject, organization_id, false)
     }
 
     async checkCertificate(host, organization_id, pathname = '') {
