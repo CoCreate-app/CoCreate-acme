@@ -1,3 +1,10 @@
+## [1.2.10](https://github.com/CoCreate-app/CoCreate-acme/compare/v1.2.9...v1.2.10) (2024-04-26)
+
+
+### Bug Fixes
+
+* merge hostObject to retain previous configuration reltaed to database ([c9d7c16](https://github.com/CoCreate-app/CoCreate-acme/commit/c9d7c160dfd07f3f5a91c9e2cebab5da2d86ec1c))
+
 ## [1.2.9](https://github.com/CoCreate-app/CoCreate-acme/compare/v1.2.8...v1.2.9) (2024-04-10)
 
 
