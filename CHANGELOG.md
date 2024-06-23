@@ -1,3 +1,10 @@
+## [1.2.13](https://github.com/CoCreate-app/CoCreate-acme/compare/v1.2.12...v1.2.13) (2024-06-23)
+
+
+### Bug Fixes
+
+* bump dependencies ([a10999f](https://github.com/CoCreate-app/CoCreate-acme/commit/a10999f40dd93bc007f4658e6b278b40c905f440))
+
 ## [1.2.12](https://github.com/CoCreate-app/CoCreate-acme/compare/v1.2.11...v1.2.12) (2024-06-23)
 
 
