@@ -1,3 +1,10 @@
+## [1.2.11](https://github.com/CoCreate-app/CoCreate-acme/compare/v1.2.10...v1.2.11) (2024-06-23)
+
+
+### Bug Fixes
+
+* demo css ([1f4a35c](https://github.com/CoCreate-app/CoCreate-acme/commit/1f4a35cdf2e101803c8eafc3fefa149ad2719016))
+
 ## [1.2.10](https://github.com/CoCreate-app/CoCreate-acme/compare/v1.2.9...v1.2.10) (2024-04-26)
 
 
