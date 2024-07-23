@@ -89,7 +89,7 @@ class CoCreateAcme {
             const domains = wildcard ? [host, `*.${host}`] : [host];
 
             /* Create certificate request */
-            const [key, csr] = await forge.createCsr({
+            let [key, csr] = await forge.createCsr({
                 commonName: domains[0],
                 altNames: domains
             });
@@ -168,6 +168,8 @@ class CoCreateAcme {
             let expires = await forge.readCertificateInfo(cert);
             expires = expires.notAfter;
             this.setCertificate(host, expires, organization_id, hostKeyPath, cert, key)
+
+            key = key.toString('utf8');
 
             this.crud.send({
                 method: 'object.update',
