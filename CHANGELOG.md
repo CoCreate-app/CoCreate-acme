@@ -1,3 +1,11 @@
+## [1.3.1](https://github.com/CoCreate-app/CoCreate-acme/compare/v1.3.0...v1.3.1) (2025-05-01)
+
+
+### Bug Fixes
+
+* update [@cocreate](https://github.com/cocreate) dependencies ([f2f3db6](https://github.com/CoCreate-app/CoCreate-acme/commit/f2f3db6cf8ecf15e91edc64ab463d6bc34c193f5))
+* webpack.config and devdependencies ([41a8a22](https://github.com/CoCreate-app/CoCreate-acme/commit/41a8a22223eff38cc7c439c05a11e8d31ae9b8f9))
+
 # [1.3.0](https://github.com/CoCreate-app/CoCreate-acme/compare/v1.2.14...v1.3.0) (2024-11-04)
 
 
