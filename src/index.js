@@ -295,7 +295,7 @@ class CoCreateAcme {
 		}
 
 		if (!hosts[host])
-			hosts[host] = this.getCertificate(host, organization_id);
+			hosts[host] = await this.getCertificate(host, organization_id);
 		return hosts[host];
 	}
 
