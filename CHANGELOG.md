@@ -1,3 +1,11 @@
+## [1.3.2](https://github.com/CoCreate-app/CoCreate-acme/compare/v1.3.1...v1.3.2) (2025-09-06)
+
+
+### Bug Fixes
+
+* await async function calls ([cf151f1](https://github.com/CoCreate-app/CoCreate-acme/commit/cf151f186b4893411f273a6a3e3f08b87093b72c))
+* formating ([bcce249](https://github.com/CoCreate-app/CoCreate-acme/commit/bcce24906478e43aa4b1845c9f9099623551128e))
+
 ## [1.3.1](https://github.com/CoCreate-app/CoCreate-acme/compare/v1.3.0...v1.3.1) (2025-05-01)
 
 
